@@ -104,7 +104,7 @@ async function run() {
                 base,
                 head,
                 commit_message: commitName,
-				headers: {'X-GitHub-Api-Version': '2022-11-28'}
+				/*headers: {'X-GitHub-Api-Version': '2022-11-28'}*/
             };
 
             let response = null;
@@ -135,6 +135,8 @@ async function run() {
 
         console.log('Operation completed');
     } catch (error) {
+		console.log(JSON.stringify(response));
+        console.log(JSON.stringify(error));
         core.setFailed(error.toString());
     }    
 }
