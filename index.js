@@ -103,7 +103,8 @@ async function run() {
                 repo: repoName,
                 base,
                 head,
-                commit_message: commitName
+                commit_message: commitName,
+				headers: {'X-GitHub-Api-Version': '2022-11-28'}
             };
 
             let response = null;
