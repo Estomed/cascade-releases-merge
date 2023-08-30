@@ -114,20 +114,29 @@ async function run() {
                 response  = await octokit.repos.merge(mergePayload);
             }
             catch(error) {
+				console.log('error occurred while merging');
                 console.log(JSON.stringify(response));
                 console.log(JSON.stringify(error));
                 if(error.status == 409) {
                     const failurePullRequestName = `Automatic merge failure from branch ${mergedBranch} into ${branchNameToMerge}`;
-
-                    await octokit.pulls.create({
-                        owner: repoOwner,
-                        repo: repoName,
-                        title: failurePullRequestName,
-                        body: failurePullRequestName,
-                        head,
-                        base,
-                    });
-
+					try{
+											
+						let responseCreate = await octokit.pulls.create({
+							owner: repoOwner,
+							repo: repoName,
+							title: failurePullRequestName,
+							body: failurePullRequestName,
+							head,
+							base,
+						});
+						console.log('created');
+						if(responseCreate){
+							console.log(JSON.stringify(responseCreate));
+						}
+					}catch(errorCreate){
+						console.log('error while creating pr');
+						console.log(JSON.stringify(errorCreate));
+					}
                     throw new Error(`Error while merge branch ${mergedBranch} into ${branchNameToMerge}`);
                 }
             }            
