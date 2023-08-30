@@ -97,16 +97,13 @@ async function run() {
             const commitName = `Automatic merge from branch ${mergedBranch} into ${branchNameToMerge}`;
             const base = `refs/heads/${branchNameToMerge}`;
             const head = `refs/heads/${mergedBranch}`;
-			console.log(base);
-			console.log(head);
-			console.log(commitName);
+
             const mergePayload = {
                 owner: repoOwner,
                 repo: repoName,
-                base,
-                head,
+                base: base,
+                head: head,
                 commit_message: commitName
-				/*headers: {'X-GitHub-Api-Version': '2022-11-28'}*/
             };
 
             let response = null;
@@ -129,12 +126,10 @@ async function run() {
 							head,
 							base,
 						});
-						console.log('created');
-						if(responseCreate){
-							console.log(JSON.stringify(responseCreate));
-						}
+						
 					}catch(errorCreate){
 						console.log('error while creating pr');
+						console.log(JSON.stringify(responseCreate));
 						console.log(JSON.stringify(errorCreate));
 					}
                     throw new Error(`Error while merge branch ${mergedBranch} into ${branchNameToMerge}`);
@@ -146,8 +141,6 @@ async function run() {
 
         console.log('Operation completed');
     } catch (error) {
-		
-        console.log(JSON.stringify(error));
         core.setFailed(error.toString());
     }    
 }
