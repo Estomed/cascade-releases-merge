@@ -116,9 +116,10 @@ async function run() {
                 console.log(JSON.stringify(error));
                 if(error.status == 409) {
                     const failurePullRequestName = `Automatic merge failure from branch ${mergedBranch} into ${branchNameToMerge}`;
+					let responseCreate = null
 					try{
 											
-						let responseCreate = await octokit.pulls.create({
+						responseCreate = await octokit.pulls.create({
 							owner: repoOwner,
 							repo: repoName,
 							title: failurePullRequestName,
